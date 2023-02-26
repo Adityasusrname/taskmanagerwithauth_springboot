@@ -1,10 +1,11 @@
 package com.adityasrivastava.taskmanagerwithauth.entities;
 
 
-import jakarta.persistence.*;
+
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
+import javax.persistence.*;
 import java.util.Date;
 
 
@@ -25,6 +26,14 @@ public class userEntity {
     @NonNull
     @Column(unique = true)
     private String username;
+
+    @Column(nullable = false)
+    @NonNull
+    private String email;
+
+    @Column(nullable = false)
+    @NonNull
+    private String password;
 
     @CreatedDate
     private Date createdAt;

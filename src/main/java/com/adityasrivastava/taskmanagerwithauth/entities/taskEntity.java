@@ -1,9 +1,10 @@
 package com.adityasrivastava.taskmanagerwithauth.entities;
 
-import jakarta.persistence.*;
+
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "tasks")
