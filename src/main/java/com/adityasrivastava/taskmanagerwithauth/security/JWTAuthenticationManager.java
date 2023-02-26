@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
+
 public class JWTAuthenticationManager implements AuthenticationManager {
 
     private JWTService jwtService;
@@ -27,6 +28,6 @@ public class JWTAuthenticationManager implements AuthenticationManager {
             return jwtAuthentication;
 
         }
-        return null;
+        throw new IllegalAccessError("Cannot authenticate with non-JWT authentication");
     }
 }

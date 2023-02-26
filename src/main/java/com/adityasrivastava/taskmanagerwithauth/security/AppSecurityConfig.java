@@ -1,7 +1,6 @@
 package com.adityasrivastava.taskmanagerwithauth.security;
 
 import com.adityasrivastava.taskmanagerwithauth.services.userService;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,25 +16,20 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter{
     private JWTService jwtService;
     private userService userService;
 
-    public AppSecurityConfig(JWTAuthenticationFilter jwtAuthenticationFilter, JWTService jwtService,userService userService) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    public AppSecurityConfig(JWTService jwtService,userService userService) {
         this.jwtService = jwtService;
         this.userService = userService;
+        this.jwtAuthenticationFilter = new JWTAuthenticationFilter(
+                new JWTAuthenticationManager(jwtService, userService));
     }
 
-    @Bean
-    JWTAuthenticationFilter jwtAuthenticationFilter() throws Exception{
-        return new JWTAuthenticationFilter(
-                new JWTAuthenticationManager(jwtService,userService)
-        );
-    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
      http.cors().and().csrf().disable().authorizeRequests().
-             antMatchers(HttpMethod.POST,"/users","/users/login").
-             permitAll().anyRequest().authenticated();
+             antMatchers(HttpMethod.POST,"/users","/users/login").permitAll();
 
      http.addFilterBefore(jwtAuthenticationFilter, AnonymousAuthenticationFilter.class);
 

@@ -22,7 +22,7 @@ public class userService {
     }
 
     public userEntity createUser(createUserRequest u){
-
+        System.out.println(passwordEncoder.encode(u.getPassword()));
         userEntity newUser = modelMapper.map(u,userEntity.class);
         newUser.setPassword(passwordEncoder.encode(u.getPassword()));
 
