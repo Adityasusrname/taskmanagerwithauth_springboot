@@ -1,6 +1,7 @@
 package com.adityasrivastava.taskmanagerwithauth.controllers;
 
 import com.adityasrivastava.taskmanagerwithauth.daos.createUserRequest;
+import com.adityasrivastava.taskmanagerwithauth.daos.loginUserRequest;
 import com.adityasrivastava.taskmanagerwithauth.daos.userResponse;
 import com.adityasrivastava.taskmanagerwithauth.entities.userEntity;
 import com.adityasrivastava.taskmanagerwithauth.security.JWTService;
@@ -30,12 +31,19 @@ public class userController {
 
     @PostMapping("")
     ResponseEntity<userResponse> createUser(@RequestBody createUserRequest request){
-        System.out.println(request.getPassword().toString());
         userEntity savedUser = userService.createUser(request);
         URI savedUserUri = URI.create("/users/"+savedUser.getId());
         var userResponse = modelMapper.map(savedUser,userResponse.class);
         userResponse.setToken(jwtService.createJWT(savedUser.getId()));
         return ResponseEntity.created(savedUserUri).body(userResponse);
+    }
+
+    @PostMapping("/login")
+    ResponseEntity<userResponse> loginUser(@RequestBody loginUserRequest request){
+        userEntity savedUser = userService.loginUser(request.getUsername(),request.getPassword());
+        var userResponse = modelMapper.map(savedUser,userResponse.class);
+        userResponse.setToken(jwtService.createJWT(savedUser.getId()));
+        return ResponseEntity.ok(userResponse);
     }
 
 
