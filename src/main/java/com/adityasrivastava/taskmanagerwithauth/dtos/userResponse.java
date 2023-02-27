@@ -1,9 +1,6 @@
-package com.adityasrivastava.taskmanagerwithauth.daos;
+package com.adityasrivastava.taskmanagerwithauth.dtos;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.NonNull;
-import lombok.Setter;
 
 @Data
 

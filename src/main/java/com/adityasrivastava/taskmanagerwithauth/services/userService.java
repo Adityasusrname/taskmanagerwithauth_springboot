@@ -1,6 +1,6 @@
 package com.adityasrivastava.taskmanagerwithauth.services;
 
-import com.adityasrivastava.taskmanagerwithauth.daos.createUserRequest;
+import com.adityasrivastava.taskmanagerwithauth.dtos.createUserRequest;
 import com.adityasrivastava.taskmanagerwithauth.repositories.userRepository;
 import com.adityasrivastava.taskmanagerwithauth.entities.userEntity;
 import org.modelmapper.ModelMapper;

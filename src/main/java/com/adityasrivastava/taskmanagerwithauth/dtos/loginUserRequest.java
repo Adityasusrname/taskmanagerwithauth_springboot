@@ -1,4 +1,4 @@
-package com.adityasrivastava.taskmanagerwithauth.daos;
+package com.adityasrivastava.taskmanagerwithauth.dtos;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -7,11 +7,10 @@ import lombok.Setter;
 
 @Data
 @Setter(AccessLevel.NONE)
-public class createUserRequest {
+public class loginUserRequest {
     @NonNull
     private String username;
     @NonNull
     private String password;
-    @NonNull
-    private String email;
+
 }

@@ -1,17 +1,16 @@
 package com.adityasrivastava.taskmanagerwithauth.controllers;
 
-import com.adityasrivastava.taskmanagerwithauth.daos.createUserRequest;
-import com.adityasrivastava.taskmanagerwithauth.daos.loginUserRequest;
-import com.adityasrivastava.taskmanagerwithauth.daos.userResponse;
+import com.adityasrivastava.taskmanagerwithauth.dtos.ErrorResponse;
+import com.adityasrivastava.taskmanagerwithauth.dtos.createUserRequest;
+import com.adityasrivastava.taskmanagerwithauth.dtos.loginUserRequest;
+import com.adityasrivastava.taskmanagerwithauth.dtos.userResponse;
 import com.adityasrivastava.taskmanagerwithauth.entities.userEntity;
 import com.adityasrivastava.taskmanagerwithauth.security.JWTService;
 import com.adityasrivastava.taskmanagerwithauth.services.userService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -46,5 +45,31 @@ public class userController {
         return ResponseEntity.ok(userResponse);
     }
 
+
+    @ExceptionHandler({
+            userService.UserNotFoundException.class,
+            userService.InvalidCredentialsException.class
+    })
+    ResponseEntity<ErrorResponse> handleUserExceptions(Exception ex){
+         String message;
+        HttpStatus status;
+        if(ex instanceof userService.UserNotFoundException){
+            message = ex.getMessage();
+            status = HttpStatus.NOT_FOUND;
+        }
+        else if(ex instanceof userService.InvalidCredentialsException){
+            message = ex.getMessage();
+            status = HttpStatus.UNAUTHORIZED;
+        }
+        else{
+            message = "Something went wrong!";
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        ErrorResponse response = ErrorResponse.builder().message(message).build();
+
+        return ResponseEntity.status(status).body(response);
+
+    }
 
 }
